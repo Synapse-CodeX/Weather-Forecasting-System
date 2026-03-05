@@ -9,3 +9,9 @@ __pycache__
 README.md
 venv
 env
+myenv
+.ipynb_checkpoints
+*.ipynb
+.DS_Store
+.vscode
+.idea
