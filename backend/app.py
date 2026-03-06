@@ -4,7 +4,7 @@ import uvicorn
 import os
 from datetime import datetime
 from .fetch import get_recent_data
-from .predict import predict_next_24h, predict_next_7days
+from .predict import predict_next_24h
 
 app = FastAPI(title="Bakkhali Weather Prediction API", version="1.0.0")
 
