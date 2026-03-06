@@ -5,7 +5,6 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import datetime
 
-# Backend URL - change this to your backend address
 BACKEND_URL = "http://localhost:5000"
 
 st.set_page_config(
@@ -14,7 +13,6 @@ st.set_page_config(
     layout="wide"
 )
 
-# Custom CSS
 st.markdown("""
     <style>
     .main-header {
@@ -35,10 +33,8 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Header
 st.markdown('<div class="main-header"><h1>🌊 Bakkhali Weather Prediction</h1><p>Real-time weather forecasts for Bakkhali Beach, West Bengal</p></div>', unsafe_allow_html=True)
 
-# Sidebar
 with st.sidebar:
     st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Bakkhali_sea_beach_3.jpg/800px-Bakkhali_sea_beach_3.jpg", 
              caption="Bakkhali Beach")
@@ -78,17 +74,17 @@ with st.sidebar:
     if "last_update" in st.session_state:
         st.info(f"Last updated: {st.session_state.last_update.strftime('%Y-%m-%d %H:%M:%S')}")
 
-# Main content
+
 if "predictions" in st.session_state and st.session_state.predictions:
     predictions = st.session_state.predictions
     
     if "24 Hours" in prediction_type:
         st.header("📊 Next 24 Hours Forecast")
         
-        # Convert to DataFrame
+        
         df = pd.DataFrame(predictions)
         
-        # Current weather summary
+        
         col1, col2, col3, col4 = st.columns(4)
         with col1:
             st.metric("Current Temp", f"{df['Temperature (°C)'].iloc[0]:.1f}°C")
@@ -101,14 +97,14 @@ if "predictions" in st.session_state and st.session_state.predictions:
         
         st.markdown("---")
         
-        # Create subplots
+        
         fig = make_subplots(
             rows=3, cols=1,
             subplot_titles=('Temperature', 'Humidity & Precipitation', 'Wind Speed & Radiation'),
             vertical_spacing=0.12
         )
         
-        # Temperature
+        
         fig.add_trace(
             go.Scatter(x=df['datetime'], y=df['Temperature (°C)'],
                       mode='lines+markers', name='Temperature',
@@ -117,7 +113,7 @@ if "predictions" in st.session_state and st.session_state.predictions:
             row=1, col=1
         )
         
-        # Humidity and Precipitation
+        
         fig.add_trace(
             go.Scatter(x=df['datetime'], y=df['Humidity (%)'],
                       mode='lines+markers', name='Humidity',
@@ -133,7 +129,7 @@ if "predictions" in st.session_state and st.session_state.predictions:
             row=2, col=1
         )
         
-        # Wind Speed and Radiation
+        
         fig.add_trace(
             go.Scatter(x=df['datetime'], y=df['Wind Speed (m/s)'],
                       mode='lines+markers', name='Wind Speed',
@@ -155,7 +151,7 @@ if "predictions" in st.session_state and st.session_state.predictions:
         
         st.plotly_chart(fig, use_container_width=True)
         
-        # Hourly breakdown
+        
         with st.expander("📋 View Hourly Breakdown"):
             st.dataframe(
                 df.style.format({
@@ -170,7 +166,7 @@ if "predictions" in st.session_state and st.session_state.predictions:
                 use_container_width=True
             )
     
-    else:  # 7 Days
+    else:  
         st.header("📅 Next 7 Days Forecast")
         
         df = pd.DataFrame(predictions)
@@ -192,7 +188,7 @@ if "predictions" in st.session_state and st.session_state.predictions:
         
         st.markdown("---")
         
-        # Daily forecast cards
+        
         cols = st.columns(3)
         for idx, row in df.iterrows():
             with cols[idx % 3]:
@@ -208,7 +204,7 @@ if "predictions" in st.session_state and st.session_state.predictions:
                 </div>
                 """, unsafe_allow_html=True)
         
-        # Temperature trend chart
+        
         fig = go.Figure()
         fig.add_trace(go.Scatter(
             x=df['date'],
@@ -227,7 +223,7 @@ if "predictions" in st.session_state and st.session_state.predictions:
         )
         st.plotly_chart(fig, use_container_width=True)
         
-        # Detailed table
+        
         with st.expander("📋 View Daily Details"):
             st.dataframe(
                 df.style.format({
@@ -243,10 +239,10 @@ if "predictions" in st.session_state and st.session_state.predictions:
             )
 
 else:
-    # Welcome message when no predictions loaded
+    
     st.info("👈 Click 'Get Latest Predictions' in the sidebar to start")
     
-    # Sample placeholder
+    
     col1, col2, col3 = st.columns(3)
     with col1:
         st.markdown("""
@@ -270,7 +266,6 @@ else:
         </div>
         """, unsafe_allow_html=True)
 
-# Footer
 st.markdown("---")
 st.markdown(
     "<p style='text-align: center; color: gray;'>"
