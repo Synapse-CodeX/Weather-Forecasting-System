@@ -22,8 +22,7 @@ async def root():
         "message": "Bakkhali Weather Prediction API",
         "endpoints": {
             "health": "/health",
-            "predict_24h": "/api/predict/24h",
-            "predict_7days": "/api/predict/7days"
+            "predict_24h": "/api/predict/24h"
         }
     }
 
